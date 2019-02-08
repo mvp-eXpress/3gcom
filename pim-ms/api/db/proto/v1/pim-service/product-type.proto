@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+import "pim-service/common.proto";
+
+package pim.v1.productType;
+
+option go_package = "pimpb";
+
+service ProductTypeService {
+  rpc Create(CreateRequest) returns (ProductType) {};
+  rpc Update(UpdateRequest) returns (ProductType) {};
+  rpc Get(Empty) returns (ProductType) {};
+  rpc List(Empty) returns (ProductTypeList) {};
+  rpc Query(QueryReqeust) returns (ProductTypeList) {};
+  rpc Delete(DeleteRequest) returns (Empty) {};
+}
+
+message CreateRequest {
+  string id=1; //Tip: use slug name as id
+  string name=2;
+  string description=3;
+  bool active = 5;
+  int32 _version = 6;
+  int64 _createdAt = 7;
+  int64 _updatedAt = 8;
+  string _createdBy = 9;
+  string _updatedBy = 10;
+  repeated Specification specification = 11;
+  repeated Variation variation = 12;
+}
+
+message UpdateRequest {
+  string id=1; //Tip: use slug name as id
+  string name=2;
+  string description=3;
+  bool active = 5;
+  int32 _version = 6;
+  int64 _createdAt = 7;
+  int64 _updatedAt = 8;
+  string _createdBy = 9;
+  string _updatedBy = 10;
+  repeated Specification specification = 11;
+  repeated Variation variation = 12;
+}
+
+message QueryReqeust {
+  string id=1;
+  string name=2;
+  bool active=3;
+}
+
+message DeleteRequest {
+  string id=1;
+}
+
+// enum SpecificationConstraint {
+//   NONE = 1;
+//   UNIQUE = 2;
+//   UNIQUECOMBO = 3;
+//   SAMEFORALL = 4;
+// }
+
+enum ValueType {
+  TEXT = 0;
+  NUMBER = 1;
+  BOOLEAN = 2;
+}
+
+message Specification {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string uniqueName = 4; // generally slug name of name
+  // SpecificationConstraint constraint = 5;
+  ValueType valueType = 6;
+  string value = 7;
+}
+
+message Variation {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string uniqueName = 4;
+  ValueType valueType = 5;
+  string value = 7;
+}
+
+message ProductType {
+  string id = 1; // use slug name of name which has to be unique
+  string name = 2;
+  string description = 3;
+//  string uniqueName = 4; // can be used as slug name in urls
+  bool active = 5;
+  int32 _version = 6;
+  int64 _createdAt = 7;
+  int64 _updatedAt = 8;
+  string _createdBy = 9;
+  string _updatedBy = 10;
+repeated Specification specification = 11;
+repeated Variation variation = 12;
+}
+
+message ProductTypeList {
+  repeated ProductType productType=1;
+}

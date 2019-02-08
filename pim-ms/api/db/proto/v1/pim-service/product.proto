@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+import "pim-service/common.proto";
+import "pim-service/product-type.proto";
+
+package pim.v1;
+
+option go_package = "pimpb";
+
+service ProductService {
+  rpc Create(CreateRequest) returns (Product) {}
+  rpc Update(UpdateRequest) returns (Product) {}
+  rpc Get(Empty) returns (Product) {}
+  rpc List(Empty) returns (ProductList) {}
+  rpc Query(QueryRequest) returns (ProductList) {}
+  rpc Delete(DeleteRequest) returns (Empty) {}
+}
+
+message Product {
+  string id=1; //service stores skuCode as id
+  string skuCode=2; // same as id
+  string name=3;
+  string description=4;
+  string uniqueName =5;
+  bool active=6;
+  repeated productType.Variation variation =7;
+}
+
+message ProductList {
+  repeated Product product=1;
+}
+
+message CreateRequest {
+  string skuCode=1;
+  string name=2;
+  string description=3;
+  string uniqueName=4;
+  bool active=5;
+}
+
+message UpdateRequest {
+  string skuCode=1;
+  string name=2;
+  string description=3;
+  string uniqueName=4;
+  bool active=5;
+}
+
+message QueryRequest {
+  string id=1;
+  string skuCode=2;
+  string name=3;
+}
+
+message DeleteRequest {
+  string id=1;
+}
